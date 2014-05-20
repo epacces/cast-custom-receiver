@@ -30,7 +30,7 @@ limitations under the License.
         body {
             overflow:hidden;
         }
-        video {
+       /* video {
             height:auto;
             width:100%;
             text-align: center;
@@ -45,7 +45,7 @@ limitations under the License.
             float:left;
             z-index: 1;
             position:absolute;
-        }
+        }*/
         #messages {
             color: #FFFFFF;
             float: left;
@@ -60,6 +60,12 @@ limitations under the License.
 
         #messages span {
             font-weight: normal;
+        }
+
+        #receiverImageElement img {
+            height:800px;
+            width:1000px;
+            background-color:#FF0000;
         }
     </style>
 </head>
@@ -76,12 +82,13 @@ limitations under the License.
         <div>Host State: <span id="mediaHostState">Unknown</span></div>
         <div>Media Type: <span id="mediaType">Unkown</span></div>
         <div>Media Protocol: <span id="mediaProtocol">Unknown</span></div>
+        <!-- <div><img id="preview" src="../preview.jpg"></div> -->
     </div>
-    <video id="receiverVideoElement"></video>
+    <!-- <video id="receiverVideoElement"></video> -->
+    <img id="receiverImageElement" src="http://spikedmath.com/comics/445-three-logicians-walk-into-a-bar.png"/>
 
     <script type="text/javascript">
         "use strict";
-
         window.castReceiverManager = null;
         window.mediaManager = null;
         window.messageBus = null;
@@ -96,9 +103,11 @@ limitations under the License.
         }
 
         window.onload = function() {
-            window.mediaElement = document.getElementById('receiverVideoElement');
-            window.mediaElement.autoplay = true;
+            // window.mediaElement = document.getElementById('receiverVideoElement');
+            // window.mediaElement.autoplay = true;
 
+
+            window.imageElement = document.getElementById('receiverImageElement');
             /**
              play – The process of play has started
              waiting – When the video stops due to buffering
@@ -115,58 +124,58 @@ limitations under the License.
 
              http://www.w3.org/2010/05/video/mediaevents.html for more info.
              **/
-            window.mediaElement.addEventListener('loadstart', function(e){
-                console.log("######### MEDIA ELEMENT LOAD START");
-                setHudMessage('mediaElementState','Load Start');
-            });
-            window.mediaElement.addEventListener('loadeddata', function(e){
-                console.log("######### MEDIA ELEMENT DATA LOADED");
-                setHudMessage('mediaElementState','Data Loaded');
-            });
-            window.mediaElement.addEventListener('canplay', function(e){
-                console.log("######### MEDIA ELEMENT CAN PLAY");
-                setHudMessage('mediaElementState','Can Play');
-            });
-            window.mediaElement.addEventListener('ended', function(e){
-                console.log("######### MEDIA ELEMENT ENDED");
-                setHudMessage('mediaElementState','Ended');
-            });
-            window.mediaElement.addEventListener('playing', function(e){
-                console.log("######### MEDIA ELEMENT PLAYING");
-                setHudMessage('mediaElementState','Playing');
-            });
-            window.mediaElement.addEventListener('waiting', function(e){
-                console.log("######### MEDIA ELEMENT WAITING");
-                setHudMessage('mediaElementState','Waiting');
-            });
-            window.mediaElement.addEventListener('stalled', function(e){
-                console.log("######### MEDIA ELEMENT STALLED");
-                setHudMessage('mediaElementState','Stalled');
-            });
-            window.mediaElement.addEventListener('error', function(e){
-                console.log("######### MEDIA ELEMENT ERROR " + e);
-                setHudMessage('mediaElementState','Error');
-            });
-            window.mediaElement.addEventListener('abort', function(e){
-                console.log("######### MEDIA ELEMENT ABORT " + e);
-                setHudMessage('mediaElementState','Abort');
-            });
-            window.mediaElement.addEventListener('suspend', function(e){
-                console.log("######### MEDIA ELEMENT SUSPEND " + e);
-                setHudMessage('mediaElementState','Suspended');
-            });
-            window.mediaElement.addEventListener('progress', function(e){
-                setHudMessage('mediaElementState','Progress');
-            });
+            // window.mediaElement.addEventListener('loadstart', function(e){
+            //     console.log("######### MEDIA ELEMENT LOAD START");
+            //     setHudMessage('mediaElementState','Load Start');
+            // });
+            // window.mediaElement.addEventListener('loadeddata', function(e){
+            //     console.log("######### MEDIA ELEMENT DATA LOADED");
+            //     setHudMessage('mediaElementState','Data Loaded');
+            // });
+            // window.mediaElement.addEventListener('canplay', function(e){
+            //     console.log("######### MEDIA ELEMENT CAN PLAY");
+            //     setHudMessage('mediaElementState','Can Play');
+            // });
+            // window.mediaElement.addEventListener('ended', function(e){
+            //     console.log("######### MEDIA ELEMENT ENDED");
+            //     setHudMessage('mediaElementState','Ended');
+            // });
+            // window.mediaElement.addEventListener('playing', function(e){
+            //     console.log("######### MEDIA ELEMENT PLAYING");
+            //     setHudMessage('mediaElementState','Playing');
+            // });
+            // window.mediaElement.addEventListener('waiting', function(e){
+            //     console.log("######### MEDIA ELEMENT WAITING");
+            //     setHudMessage('mediaElementState','Waiting');
+            // });
+            // window.mediaElement.addEventListener('stalled', function(e){
+            //     console.log("######### MEDIA ELEMENT STALLED");
+            //     setHudMessage('mediaElementState','Stalled');
+            // });
+            // window.mediaElement.addEventListener('error', function(e){
+            //     console.log("######### MEDIA ELEMENT ERROR " + e);
+            //     setHudMessage('mediaElementState','Error');
+            // });
+            // window.mediaElement.addEventListener('abort', function(e){
+            //     console.log("######### MEDIA ELEMENT ABORT " + e);
+            //     setHudMessage('mediaElementState','Abort');
+            // });
+            // window.mediaElement.addEventListener('suspend', function(e){
+            //     console.log("######### MEDIA ELEMENT SUSPEND " + e);
+            //     setHudMessage('mediaElementState','Suspended');
+            // });
+            // window.mediaElement.addEventListener('progress', function(e){
+            //     setHudMessage('mediaElementState','Progress');
+            // });
 
-            window.mediaElement.addEventListener('seeking', function(e){
-                console.log("######### MEDIA ELEMENT SEEKING " + e);
-                setHudMessage('mediaElementState','Seeking');
-            });
-            window.mediaElement.addEventListener('seeked', function(e){
-                console.log("######### MEDIA ELEMENT SEEKED " + e);
-                setHudMessage('mediaElementState','Seeked');
-            });
+            // window.mediaElement.addEventListener('seeking', function(e){
+            //     console.log("######### MEDIA ELEMENT SEEKING " + e);
+            //     setHudMessage('mediaElementState','Seeking');
+            // });
+            // window.mediaElement.addEventListener('seeked', function(e){
+            //     console.log("######### MEDIA ELEMENT SEEKED " + e);
+            //     setHudMessage('mediaElementState','Seeked');
+            // });
 
             /**
              * Sets the log verbosity level.
@@ -556,6 +565,7 @@ limitations under the License.
                 // TODO - if there is no error call mediaManager.sendLoadCompleteComplete
                 // TODO - call mediaManager.setMediaInformation(MediaInformation)
 
+
                 if(window.mediaPlayer !== null) {
                     window.mediaPlayer.unload(); // Ensure unload before loading again
                 }
@@ -563,36 +573,38 @@ limitations under the License.
                 if (event.data['media'] && event.data['media']['contentId']) {
                     var url = event.data['media']['contentId'];
 
-                    window.mediaHost = new cast.player.api.Host({
-                        'mediaElement': window.mediaElement,
-                        'url': url
-                    });
+                    // window.mediaHost = new cast.player.api.Host({
+                    //     'mediaElement': window.mediaElement,
+                    //     'url': url
+                    // });
 
-                    window.mediaHost.onError = function (errorCode) {
-                        console.error('### HOST ERROR - Fatal Error: code = ' + errorCode);
-                        setHudMessage('mediaHostState', 'Fatal Error: code = ' + errorCode);
-                        if (window.mediaPlayer !== null) {
-                            window.mediaPlayer.unload();
-                        }
-                    }
+                    window.imageElement.src = url;
+
+                    // window.mediaHost.onError = function (errorCode) {
+                    //     console.error('### HOST ERROR - Fatal Error: code = ' + errorCode);
+                    //     setHudMessage('mediaHostState', 'Fatal Error: code = ' + errorCode);
+                    //     if (window.mediaPlayer !== null) {
+                    //         window.mediaPlayer.unload();
+                    //     }
+                    // }
 
                     var initialTimeIndexSeconds = event.data['media']['currentTime'] || 0;
                     // TODO: real code would know what content it was going to access and this would not be here.
                     var protocol = null;
 
-                    var parser = document.createElement('a');
-                    parser.href = url;
+                    // var parser = document.createElement('a');
+                    // parser.href = url;
 
-                    var ext = ext = parser.pathname.split('.').pop();
-                    if (ext === 'm3u8') {
-                        protocol =  cast.player.api.CreateHlsStreamingProtocol(window.mediaHost);
-                    } else if (ext === 'mpd') {
-                        protocol = cast.player.api.CreateDashStreamingProtocol(window.mediaHost);
-                    } else if (ext === 'ism/') {
-                        protocol = cast.player.api.CreateSmoothStreamingProtocol(window.mediaHost);
-                    }
-                    console.log('### Media Protocol Identified as ' + ext);
-                    setHudMessage('mediaProtocol', ext);
+                    // var ext = ext = parser.pathname.split('.').pop();
+                    // if (ext === 'm3u8') {
+                    //     protocol =  cast.player.api.CreateHlsStreamingProtocol(window.mediaHost);
+                    // } else if (ext === 'mpd') {
+                    //     protocol = cast.player.api.CreateDashStreamingProtocol(window.mediaHost);
+                    // } else if (ext === 'ism/') {
+                    //     protocol = cast.player.api.CreateSmoothStreamingProtocol(window.mediaHost);
+                    // }
+                    // console.log('### Media Protocol Identified as ' + ext);
+                    // setHudMessage('mediaProtocol', ext);
 
                     if (protocol === null) {
                         // Call on original handler
